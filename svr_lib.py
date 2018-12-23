@@ -158,12 +158,13 @@ def search_for_id(algo_name, num_processes=20, verbose=False):
             If there are duplicate names then it returns the first that it finds.
             This will most likely be the most recent algo uploaded, but this IS NOT guaranteed.
     '''
-    start = get_num_algos() + 700
+    offset = 507
+    start = get_num_algos() + offset
 
     manager = mp.Manager()
     rtn_dict = manager.dict()
     next_id = manager.dict()
-    next_id[0] = get_num_algos() + 505
+    next_id[0] = get_num_algos() + offset
     ps = {}
 
     for i in range(num_processes+1, 0, -1):
