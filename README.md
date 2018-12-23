@@ -1,2 +1,2 @@
-# terminal_svr
-This is a repository containing a script to interact with the terminal api.
+# Termainal Server API Library
+This is a repository containing a script to act as a starting point to interact with the terminal api.
