@@ -107,23 +107,26 @@ def get_num_players():
     '''
     return get_leaderboard_metric('players')
 
-def get_num_matches():
+def get_num_matches(season='Two'):
     '''
-    Get the total number of terminal matches played.
+    Get the total number of terminal matches played for a season (default is current).
+
+        Args:
+            * season: Currently can only be 'One' or 'Two'
 
         Returns:
-            The total number of terminal matches played.
+            The total number of terminal matches played in a season.
     '''
-    return get_leaderboard_metric('matches')
+    return get_leaderboard_metric('season{}Matches'.format(season))
 
-def get_num_algos():
+def get_num_algos(season='Two'):
     '''
     Get the total number of terminal algos uploaded.
 
         Returns:
             The total number of terminal algos uploaded.
     '''
-    return get_leaderboard_metric('algos')
+    return get_leaderboard_metric('season{}Algos'.format(season))
 
 def get_algos_matches(ID):
     '''
@@ -159,12 +162,13 @@ def search_for_id(algo_name, num_processes=20, verbose=False):
             This will most likely be the most recent algo uploaded, but this IS NOT guaranteed.
     '''
     offset = 507
-    start = get_num_algos() + offset
+    num_algos = get_num_algos() + get_num_algos(season='One')
+    start = num_algos + offset
 
     manager = mp.Manager()
     rtn_dict = manager.dict()
     next_id = manager.dict()
-    next_id[0] = get_num_algos() + offset
+    next_id[0] = num_algos + offset
     ps = {}
 
     for i in range(num_processes+1, 0, -1):
@@ -292,7 +296,7 @@ def get_leaderboard_ids(pages=[1], limit=(-sys.maxsize - 1)):
             for algo in get_leaderboard_algos(i):
                 name = algo['name']
                 ID = algo['id']
-                elo = algo['elo']
+                elo = algo['rating']
 
                 if elo < limit: break
                 algos[name] = ID
