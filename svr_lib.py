@@ -69,7 +69,7 @@ def get_leaderboard_metrics():
     contents = get_page_content('/game/leaderboard/metrics')
     return json.loads(contents)['data']
 
-def get_leaderboard_metric(key):
+def get_leaderboard_metric(key, season='2'):
     '''
     Get a specific leaderboard metric from the terminal leaderboard page.
 
@@ -80,7 +80,7 @@ def get_leaderboard_metric(key):
             The number associated with the leaderboard metric.
     '''
     data = get_leaderboard_metrics()
-    try: return data[key]
+    try: return data[season][key]
     except KeyError as e:
         raise Exception('No leaderboard metric with key: {}'.format(key))
 
@@ -98,35 +98,41 @@ def get_leaderboard_algos(i):
     contents = get_page_content('/game/leaderboard?page={}'.format(i))
     return json.loads(contents)['data']['algos']
 
-def get_num_players():
+def get_num_players(season='2'):
     '''
     Get the total number of terminal players.
+
+        Args:
+            * season: Currently can only be '1' or '2'
 
         Returns:
             The total number of terminal players.
     '''
-    return get_leaderboard_metric('players')
+    return get_leaderboard_metric('Players', season=season)
 
-def get_num_matches(season='Two'):
+def get_num_matches(season='2'):
     '''
     Get the total number of terminal matches played for a season (default is current).
 
         Args:
-            * season: Currently can only be 'One' or 'Two'
+            * season: Currently can only be '1' or '2'
 
         Returns:
             The total number of terminal matches played in a season.
     '''
-    return get_leaderboard_metric('season{}Matches'.format(season))
+    return get_leaderboard_metric('Matches', season=season)
 
-def get_num_algos(season='Two'):
+def get_num_algos(season='2'):
     '''
     Get the total number of terminal algos uploaded.
+
+        Args:
+            * season: Currently can only be '1' or '2'
 
         Returns:
             The total number of terminal algos uploaded.
     '''
-    return get_leaderboard_metric('season{}Algos'.format(season))
+    return get_leaderboard_metric('Algos', season=season)
 
 def get_algos_matches(ID):
     '''
@@ -162,7 +168,7 @@ def search_for_id(algo_name, num_processes=20, verbose=False):
             This will most likely be the most recent algo uploaded, but this IS NOT guaranteed.
     '''
     offset = 507
-    num_algos = get_num_algos() + get_num_algos(season='One')
+    num_algos = get_num_algos() + get_num_algos(season='1')
     start = num_algos + offset
 
     manager = mp.Manager()

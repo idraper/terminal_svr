@@ -53,7 +53,7 @@ if __name__ == '__main__':
         If the algo is not on the leaderboard, set that param to False (default is False).
         (verbose is just so you can see the functions run)
     '''
-    # print (svr.get_algos_matches(3000))
+    # print (svr.get_algos_matches(50000))
     # print (svr.get_match_ids(algo_name, in_leaderboard=True))
 
     '''
