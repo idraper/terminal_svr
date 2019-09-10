@@ -3,7 +3,7 @@
 '''
 ------------------------------------------------------------------------------------------------
 Author: @Isaac
-Last Updated: 22 Apr 2018
+Last Updated: 10 Sep 2019
 Contact: Message @Isaac at https://forum.c1games.com/
 Copyright: CC0 - completely open to edit, share, etc
 Short Description: 
@@ -20,7 +20,7 @@ import time
 import json
 import sys
 
-api_link = 'http://terminal.c1games.com/api'
+api_link = 'https://terminal.c1games.com/api'
 
 def clean_content(content):
     '''
@@ -69,12 +69,13 @@ def get_leaderboard_metrics():
     contents = get_page_content('/game/leaderboard/metrics')
     return json.loads(contents)['data']
 
-def get_leaderboard_metric(key, season='2'):
+def get_leaderboard_metric(key, season='4'):
     '''
     Get a specific leaderboard metric from the terminal leaderboard page.
 
         Args:
             * key: The leaderboard metric you'd like to retrieve
+            * season: Currently can only be '1', '2', '3', or '4'
 
         Returns:
             The number associated with the leaderboard metric.
@@ -98,36 +99,36 @@ def get_leaderboard_algos(i):
     contents = get_page_content('/game/leaderboard?page={}'.format(i))
     return json.loads(contents)['data']['algos']
 
-def get_num_players(season='2'):
+def get_num_players(season='4'):
     '''
     Get the total number of terminal players.
 
         Args:
-            * season: Currently can only be '1' or '2'
+            * season: Currently can only be '1', '2', '3', or '4'
 
         Returns:
             The total number of terminal players.
     '''
     return get_leaderboard_metric('Players', season=season)
 
-def get_num_matches(season='2'):
+def get_num_matches(season='4'):
     '''
     Get the total number of terminal matches played for a season (default is current).
 
         Args:
-            * season: Currently can only be '1' or '2'
+            * season: Currently can only be '1', '2', '3', or '4'
 
         Returns:
             The total number of terminal matches played in a season.
     '''
     return get_leaderboard_metric('Matches', season=season)
 
-def get_num_algos(season='2'):
+def get_num_algos(season='4'):
     '''
     Get the total number of terminal algos uploaded.
 
         Args:
-            * season: Currently can only be '1' or '2'
+            * season: Currently can only be '1', '2', '3', or '4'
 
         Returns:
             The total number of terminal algos uploaded.
@@ -168,7 +169,7 @@ def search_for_id(algo_name, num_processes=20, verbose=False):
             This will most likely be the most recent algo uploaded, but this IS NOT guaranteed.
     '''
     offset = 507
-    num_algos = get_num_algos() + get_num_algos(season='1')
+    num_algos = get_num_algos(season='1') + get_num_algos(season='2') + get_num_algos(season='3') + get_num_algos(season='4')
     start = num_algos + offset
 
     manager = mp.Manager()
@@ -346,7 +347,7 @@ def get_match_str(mID):
         Returns:
             A string you can copy and paste into a browser to watch that game.
     '''
-    return 'http://terminal.c1games.com/watch/{}'.format(mID)
+    return 'https://terminal.c1games.com/watch/{}'.format(mID)
 
 def get_matches_str(algo, in_leaderboard=False, verbose=False):
     '''

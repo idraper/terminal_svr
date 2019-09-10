@@ -3,7 +3,7 @@
 '''
 ------------------------------------------------------------------------------------------------
 Author: @Isaac
-Last Updated: 22 Apr 2018
+Last Updated: 10 Sep 2019
 Contact: Message @Isaac at https://forum.c1games.com/
 Copyright: CC0 - completely open to edit, share, etc
 Short Description: 
@@ -22,7 +22,7 @@ since it uses the multiprocessing library.
 if __name__ == '__main__':
 
     # change this name to be whatever algo you want
-    algo_name = 'dumb-dumb-octo_v0.17'
+    algo_name = 'xterminatorv2'
 
     '''
         These are functions that are associated with the leaderboard metrics.
@@ -53,7 +53,7 @@ if __name__ == '__main__':
         If the algo is not on the leaderboard, set that param to False (default is False).
         (verbose is just so you can see the functions run)
     '''
-    # print (svr.get_algos_matches(50000))
+    # print (svr.get_algos_matches(81065))
     # print (svr.get_match_ids(algo_name, in_leaderboard=True))
 
     '''
