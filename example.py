@@ -3,7 +3,7 @@
 '''
 ------------------------------------------------------------------------------------------------
 Author: @Isaac
-Last Updated: 10 Sep 2019
+Last Updated: 22 Nov 2020
 Contact: Message @Isaac at https://forum.c1games.com/
 Copyright: CC0 - completely open to edit, share, etc
 Short Description: 
@@ -22,7 +22,7 @@ since it uses the multiprocessing library.
 if __name__ == '__main__':
 
     # change this name to be whatever algo you want
-    algo_name = 'xterminatorv2'
+    algo_name = 'iotaqq12'
 
     '''
         These are functions that are associated with the leaderboard metrics.

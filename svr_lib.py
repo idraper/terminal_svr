@@ -3,7 +3,7 @@
 '''
 ------------------------------------------------------------------------------------------------
 Author: @Isaac
-Last Updated: 10 Sep 2019
+Last Updated: 22 Nov 2020
 Contact: Message @Isaac at https://forum.c1games.com/
 Copyright: CC0 - completely open to edit, share, etc
 Short Description: 
@@ -20,7 +20,8 @@ import time
 import json
 import sys
 
-api_link = 'https://terminal.c1games.com/api'
+SEASON = '7'
+API_LINK = 'http://terminal.c1games.com/api'
 
 def clean_content(content):
     '''
@@ -46,7 +47,7 @@ def get_page(url):
     '''
     return requests.get(url)
 
-def get_page_content(path, url=api_link):
+def get_page_content(path, url=API_LINK):
     '''
     Get the content from a webpage, for the terminal api this is a JSON string.
 
@@ -69,13 +70,13 @@ def get_leaderboard_metrics():
     contents = get_page_content('/game/leaderboard/metrics')
     return json.loads(contents)['data']
 
-def get_leaderboard_metric(key, season='4'):
+def get_leaderboard_metric(key, season=SEASON):
     '''
     Get a specific leaderboard metric from the terminal leaderboard page.
 
         Args:
             * key: The leaderboard metric you'd like to retrieve
-            * season: Currently can only be '1', '2', '3', or '4'
+            * season: The season of metrics to get (as a string, eg '7')
 
         Returns:
             The number associated with the leaderboard metric.
@@ -99,36 +100,36 @@ def get_leaderboard_algos(i):
     contents = get_page_content('/game/leaderboard?page={}'.format(i))
     return json.loads(contents)['data']['algos']
 
-def get_num_players(season='4'):
+def get_num_players(season=SEASON):
     '''
     Get the total number of terminal players.
 
         Args:
-            * season: Currently can only be '1', '2', '3', or '4'
+            * season: The season of metrics to get (as a string, eg '7')
 
         Returns:
             The total number of terminal players.
     '''
     return get_leaderboard_metric('Players', season=season)
 
-def get_num_matches(season='4'):
+def get_num_matches(season=SEASON):
     '''
     Get the total number of terminal matches played for a season (default is current).
 
         Args:
-            * season: Currently can only be '1', '2', '3', or '4'
+            * season: The season of metrics to get (as a string, eg '7')
 
         Returns:
             The total number of terminal matches played in a season.
     '''
     return get_leaderboard_metric('Matches', season=season)
 
-def get_num_algos(season='4'):
+def get_num_algos(season=SEASON):
     '''
     Get the total number of terminal algos uploaded.
 
         Args:
-            * season: Currently can only be '1', '2', '3', or '4'
+            * season: The season of metrics to get (as a string, eg '7')
 
         Returns:
             The total number of terminal algos uploaded.
@@ -169,7 +170,7 @@ def search_for_id(algo_name, num_processes=20, verbose=False):
             This will most likely be the most recent algo uploaded, but this IS NOT guaranteed.
     '''
     offset = 507
-    num_algos = get_num_algos(season='1') + get_num_algos(season='2') + get_num_algos(season='3') + get_num_algos(season='4')
+    num_algos = sum([get_num_algos(season=str(i)) for i in range(1, int(SEASON) + 1)])
     start = num_algos + offset
 
     manager = mp.Manager()
