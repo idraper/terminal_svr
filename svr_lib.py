@@ -83,7 +83,7 @@ def get_leaderboard_metric(key, season=SEASON):
     '''
     data = get_leaderboard_metrics()
     try: return data[season][key]
-    except KeyError as e:
+    except KeyError:
         raise Exception('No leaderboard metric with key: {}'.format(key))
 
 def get_leaderboard_algos(i):
@@ -176,7 +176,7 @@ def search_for_id(algo_name, num_processes=20, verbose=False):
     manager = mp.Manager()
     rtn_dict = manager.dict()
     next_id = manager.dict()
-    next_id[0] = num_algos + offset
+    next_id[0] = start
     ps = {}
 
     for i in range(num_processes+1, 0, -1):
